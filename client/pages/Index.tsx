@@ -10,7 +10,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header onOpenTrial={() => setIsTrialModalOpen(true)} />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden">

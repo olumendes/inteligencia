@@ -2,7 +2,11 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
-export default function Header() {
+interface HeaderProps {
+  onOpenTrial?: () => void;
+}
+
+export default function Header({ onOpenTrial }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -53,14 +57,23 @@ export default function Header() {
           </a>
         </nav>
 
-        <button className="hidden md:block bg-primary text-primary-foreground px-4 md:px-6 py-2 rounded-lg font-semibold hover:bg-primary/90 transition-colors flex-shrink-0">
+        <button
+          onClick={onOpenTrial}
+          className="hidden md:block bg-primary text-primary-foreground px-4 md:px-6 py-2 rounded-lg font-semibold hover:bg-primary/90 transition-colors flex-shrink-0"
+        >
           Começar
         </button>
       </div>
 
       {isOpen && (
         <div className="md:hidden bg-background border-b border-border p-4">
-          <button className="w-full bg-primary text-primary-foreground px-4 py-2 rounded-lg font-semibold hover:bg-primary/90 transition-colors">
+          <button
+            onClick={() => {
+              onOpenTrial?.();
+              setIsOpen(false);
+            }}
+            className="w-full bg-primary text-primary-foreground px-4 py-2 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+          >
             Começar
           </button>
         </div>
