@@ -27,7 +27,7 @@ export const handleTrialSignup: RequestHandler = async (req, res) => {
 
     const mailOptions = {
       from: process.env.GMAIL_USER,
-      to: process.env.GMAIL_USER,
+      to: "inteligencialicitatoria@gmail.com",
       subject: `Novo cadastro para teste grátis - ${name}`,
       html: `
         <h2>Novo Cadastro para Teste Grátis</h2>

@@ -28,7 +28,7 @@ export const handleContact: RequestHandler = async (req, res) => {
 
     const mailOptions = {
       from: process.env.GMAIL_USER,
-      to: process.env.GMAIL_USER,
+      to: "inteligencialicitatoria@gmail.com",
       subject: `Novo contato de ${name}`,
       html: `
         <h2>Novo Contato Recebido</h2>

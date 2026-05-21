@@ -1,0 +1,21 @@
+# Cloudflare Pages Configuration
+# Use este arquivo se estiver usando Cloudflare Pages em vez de Workers
+
+name = "inteligencia-licitatoria"
+
+# Build configuration
+[build]
+command = "pnpm run build:client"
+cwd = "./"
+compatibility_date = "2024-12-01"
+
+# Output directory (SPA files)
+[env.production]
+routes = [
+  { pattern = "inteligencialicitatoria.com/*", zone_name = "inteligencialicitatoria.com" }
+]
+
+# Environment variables - configure via Cloudflare Dashboard or CLI
+# wrangler pages secret put GMAIL_USER --env production
+# wrangler pages secret put GMAIL_APP_PASSWORD --env production
+# wrangler pages secret put PING_MESSAGE --env production
