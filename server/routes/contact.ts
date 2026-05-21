@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
 interface ContactRequest {
   name: string;
@@ -8,13 +8,7 @@ interface ContactRequest {
   message: string;
 }
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const handleContact: RequestHandler = async (req, res) => {
   try {
@@ -26,9 +20,10 @@ export const handleContact: RequestHandler = async (req, res) => {
       });
     }
 
-    const mailOptions = {
-      from: process.env.GMAIL_USER,
-      to: process.env.GMAIL_USER,
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: "inteligencialicitatoria@gmail.com",
+      replyTo: email,
       subject: `Novo contato de ${name}`,
       html: `
         <h2>Novo Contato Recebido</h2>
@@ -38,10 +33,7 @@ export const handleContact: RequestHandler = async (req, res) => {
         <p><strong>Mensagem:</strong></p>
         <p>${message.replace(/\n/g, "<br>")}</p>
       `,
-      replyTo: email,
-    };
-
-    await transporter.sendMail(mailOptions);
+    });
 
     res.json({
       success: true,

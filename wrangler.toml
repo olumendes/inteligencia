@@ -1,11 +1,19 @@
 name = "inteligencia-licitatoria"
-type = "javascript"
-main = "dist/server/production.mjs"
-compatibility_date = "2024-01-01"
-
-[env.production]
-name = "inteligencia-licitatoria-prod"
+main = "dist/server/node-build.mjs"
+compatibility_date = "2024-12-01"
 
 [build]
 command = "npm run build"
 cwd = "./"
+
+[env.production]
+name = "inteligencia-licitatoria-prod"
+routes = [
+  { pattern = "inteligencialicitatoria.com/*", zone_name = "inteligencialicitatoria.com" }
+]
+
+[env.development]
+name = "inteligencia-licitatoria-dev"
+
+[env.staging]
+name = "inteligencia-licitatoria-staging"

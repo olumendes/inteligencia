@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import TrialModal from "@/components/TrialModal";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { Check, AlertCircle, Clock, Settings, Download, BarChart3 } from "lucide-react";
 
 export default function Index() {
@@ -10,7 +11,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header onOpenTrial={() => setIsTrialModalOpen(true)} />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden">
@@ -342,6 +343,7 @@ export default function Index() {
       </section>
 
       <TrialModal isOpen={isTrialModalOpen} onClose={() => setIsTrialModalOpen(false)} />
+      <WhatsAppButton />
       <Footer />
     </div>
   );

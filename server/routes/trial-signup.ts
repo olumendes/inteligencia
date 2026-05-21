@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
 interface TrialSignupRequest {
   name: string;
@@ -7,13 +7,7 @@ interface TrialSignupRequest {
   phone: string;
 }
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const handleTrialSignup: RequestHandler = async (req, res) => {
   try {
@@ -25,9 +19,11 @@ export const handleTrialSignup: RequestHandler = async (req, res) => {
       });
     }
 
-    const mailOptions = {
-      from: process.env.GMAIL_USER,
-      to: process.env.GMAIL_USER,
+    // Send notification to admin
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: "inteligencialicitatoria@gmail.com",
+      replyTo: email,
       subject: `Novo cadastro para teste grátis - ${name}`,
       html: `
         <h2>Novo Cadastro para Teste Grátis</h2>
@@ -36,14 +32,11 @@ export const handleTrialSignup: RequestHandler = async (req, res) => {
         <p><strong>Telefone:</strong> ${phone}</p>
         <p><em>Data:</em> ${new Date().toLocaleString("pt-BR")}</p>
       `,
-      replyTo: email,
-    };
-
-    await transporter.sendMail(mailOptions);
+    });
 
     // Send confirmation email to user
-    const confirmationMail = {
-      from: process.env.GMAIL_USER,
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
       to: email,
       subject: "Bem-vindo ao Inteligência Licitatória - Seu teste grátis foi ativado!",
       html: `
@@ -60,9 +53,7 @@ export const handleTrialSignup: RequestHandler = async (req, res) => {
         <p>Qualquer dúvida, responda este email ou acesse nosso suporte.</p>
         <p>Sucesso!</p>
       `,
-    };
-
-    await transporter.sendMail(confirmationMail);
+    });
 
     res.json({
       success: true,
