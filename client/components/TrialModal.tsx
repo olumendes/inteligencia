@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Mail, Phone, X } from "lucide-react";
+import { apiClient, API_ENDPOINTS } from "@/config/api";
 
 interface TrialModalProps {
   isOpen: boolean;
@@ -28,16 +29,7 @@ export default function TrialModal({ isOpen, onClose }: TrialModalProps) {
     setSuccess(false);
 
     try {
-      const response = await fetch("/api/trial-signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Erro ao ativar teste grátis");
-      }
-
+      await apiClient.post(API_ENDPOINTS.TRIAL_SIGNUP, formData);
       setSuccess(true);
       setFormData({ name: "", email: "", phone: "" });
       setTimeout(() => {
