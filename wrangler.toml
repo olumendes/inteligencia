@@ -1,19 +1,16 @@
-name = "inteligencia-licitatoria"
-main = "dist/server/node-build.mjs"
-compatibility_date = "2024-12-01"
+name = "inteligencia-licitatoria-api"
+type = "javascript"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
 
-[build]
-command = "npm run build"
-cwd = "./"
+env = { production = {} }
 
 [env.production]
-name = "inteligencia-licitatoria-prod"
-routes = [
-  { pattern = "inteligencialicitatoria.com/*", zone_name = "inteligencialicitatoria.com" }
-]
 
-[env.development]
-name = "inteligencia-licitatoria-dev"
+# Variables (use these for non-sensitive config)
+vars = { PING_MESSAGE = "ping pong" }
 
-[env.staging]
-name = "inteligencia-licitatoria-staging"
+# Secrets (sensitive values - set these via `wrangler secret put`)
+# wrangler secret put RESEND_API_KEY
+# wrangler secret put GMAIL_USER
+# wrangler secret put GMAIL_APP_PASSWORD
