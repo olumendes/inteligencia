@@ -24,6 +24,27 @@ export const handleTrialSignup = async (request: Request, env: Env): Promise<Res
       );
     }
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return json(
+        {
+          error: 'Email inválido',
+        },
+        { status: 400 }
+      );
+    }
+
+    if (!env.RESEND_API_KEY) {
+      console.error('RESEND_API_KEY is not configured');
+      return json(
+        {
+          error: 'Configuração de email incompleta',
+        },
+        { status: 500 }
+      );
+    }
+
     const adminEmailHtml = `
       <h2>Novo Cadastro para Teste Grátis</h2>
       <p><strong>Nome:</strong> ${escapeHtml(name)}</p>
