@@ -118,7 +118,7 @@ export default function ContactForm() {
           )}
           {error && (
             <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-800">
-              ✗ {error}
+              ✗ Erro ao enviar mensagem. Por favor, tente novamente.
             </div>
           )}
 
