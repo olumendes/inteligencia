@@ -5,7 +5,7 @@ export default function WhatsAppButton() {
   const message = encodeURIComponent(
     "Olá, estou no site e gostaria de mais informações sobre a Inteligência Licitatória"
   );
-  const whatsappLink = `https://web.whatsapp.com/send?phone=${whatsappNumber}&text=${message}`;
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${message}`;
 
   const handleClick = () => {
     window.open(whatsappLink, "_blank");
