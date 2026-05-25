@@ -1,36 +1,7 @@
-import { Router } from 'itty-router';
+import { Router, json } from 'itty-router';
 import { handleDemo } from './routes/demo';
 import { handleContact } from './routes/contact';
 import { handleTrialSignup } from './routes/trial-signup';
-
-const router = Router();
-
-// Ping endpoint
-router.get('/api/ping', (request, env) => {
-  const ping = env.PING_MESSAGE ?? 'ping';
-  return new Response(JSON.stringify({ message: ping }), {
-    headers: { 'Content-Type': 'application/json' },
-  });
-});
-
-// Demo endpoint
-router.get('/api/demo', handleDemo);
-
-// Contact endpoint
-router.post('/api/contact', (request, env) => handleContact(request, env));
-
-// Trial signup endpoint
-router.post('/api/trial-signup', (request, env) => handleTrialSignup(request, env));
-
-// 404 handler
-router.all('*', () => {
-  return new Response('Not Found', { status: 404 });
-});
-
-export default {
-  fetch: (request: Request, env: Env, ctx: ExecutionContext) =>
-    router.handle(request, env, ctx),
-};
 
 interface Env {
   PING_MESSAGE?: string;
@@ -39,4 +10,38 @@ interface Env {
   GMAIL_APP_PASSWORD?: string;
 }
 
-declare const Env: Env;
+const router = Router<{ Bindings: Env }>();
+
+// Ping endpoint
+router.get('/api/ping', (request, { PING_MESSAGE }) => {
+  const ping = PING_MESSAGE ?? 'ping';
+  return json({ message: ping });
+});
+
+// Demo endpoint
+router.get('/api/demo', handleDemo);
+
+// Contact endpoint
+router.post('/api/contact', handleContact);
+
+// Trial signup endpoint
+router.post('/api/trial-signup', handleTrialSignup);
+
+// 404 handler
+router.all('*', () => {
+  return new Response('{"error":"Not Found"}', {
+    status: 404,
+    headers: { 'Content-Type': 'application/json' }
+  });
+});
+
+export default {
+  fetch: (request: Request, env: Env, ctx: ExecutionContext) =>
+    router.handle(request, env, ctx).catch(err => {
+      console.error('Router error:', err);
+      return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }),
+};

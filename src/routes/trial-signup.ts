@@ -1,3 +1,5 @@
+import { json, IRequest } from 'itty-router';
+
 interface TrialSignupRequest {
   name: string;
   email: string;
@@ -8,20 +10,17 @@ interface Env {
   RESEND_API_KEY: string;
 }
 
-export const handleTrialSignup = async (request: Request, env: Env): Promise<Response> => {
-  if (request.method !== 'POST') {
-    return new Response('Method Not Allowed', { status: 405 });
-  }
-
+export const handleTrialSignup = async (request: IRequest, env?: Env): Promise<Response> => {
   try {
-    const { name, email, phone } = (await request.json()) as TrialSignupRequest;
+    const body = await request.json() as TrialSignupRequest;
+    const { name, email, phone } = body;
 
     if (!name || !email || !phone) {
-      return new Response(
-        JSON.stringify({
+      return json(
+        {
           error: 'Nome, email e telefone são obrigatórios',
-        }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+        },
+        { status: 400 }
       );
     }
 
@@ -87,20 +86,17 @@ export const handleTrialSignup = async (request: Request, env: Env): Promise<Res
       throw new Error(`Resend API error: ${userEmailRes.status}`);
     }
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        message: 'Teste grátis ativado com sucesso',
-      }),
-      { headers: { 'Content-Type': 'application/json' } }
-    );
+    return json({
+      success: true,
+      message: 'Teste grátis ativado com sucesso',
+    });
   } catch (error) {
     console.error('Erro ao ativar teste grátis:', error);
-    return new Response(
-      JSON.stringify({
+    return json(
+      {
         error: 'Erro ao ativar teste grátis',
-      }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      },
+      { status: 500 }
     );
   }
 };

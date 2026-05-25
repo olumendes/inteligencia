@@ -1,3 +1,5 @@
+import { json, IRequest } from 'itty-router';
+
 interface ContactRequest {
   name: string;
   email: string;
@@ -9,20 +11,17 @@ interface Env {
   RESEND_API_KEY: string;
 }
 
-export const handleContact = async (request: Request, env: Env): Promise<Response> => {
-  if (request.method !== 'POST') {
-    return new Response('Method Not Allowed', { status: 405 });
-  }
-
+export const handleContact = async (request: IRequest, env?: Env): Promise<Response> => {
   try {
-    const { name, email, phone, message } = (await request.json()) as ContactRequest;
+    const body = await request.json() as ContactRequest;
+    const { name, email, phone, message } = body;
 
     if (!name || !email || !message) {
-      return new Response(
-        JSON.stringify({
+      return json(
+        {
           error: 'Nome, email e mensagem são obrigatórios',
-        }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+        },
+        { status: 400 }
       );
     }
 
@@ -54,20 +53,17 @@ export const handleContact = async (request: Request, env: Env): Promise<Respons
       throw new Error(`Resend API error: ${response.status}`);
     }
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        message: 'Email enviado com sucesso',
-      }),
-      { headers: { 'Content-Type': 'application/json' } }
-    );
+    return json({
+      success: true,
+      message: 'Email enviado com sucesso',
+    });
   } catch (error) {
     console.error('Erro ao enviar email:', error);
-    return new Response(
-      JSON.stringify({
+    return json(
+      {
         error: 'Erro ao enviar email',
-      }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      },
+      { status: 500 }
     );
   }
 };
