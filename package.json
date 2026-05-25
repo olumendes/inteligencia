@@ -4,22 +4,21 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:client && npm run build:server",
+    "build": "npm run build:client",
     "build:client": "vite build",
-    "build:server": "vite build --config vite.config.server.ts",
-    "start": "node dist/server/node-build.mjs",
+    "build:workers": "wrangler deploy",
+    "workers:dev": "wrangler dev",
     "test": "vitest --run",
     "format.fix": "prettier --write .",
     "typecheck": "tsc"
   },
   "dependencies": {
-    "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "nodemailer": "^8.0.7",
-    "resend": "^6.12.3",
-    "zod": "^3.25.76"
+    "itty-router": "^5.0.5",
+    "dotenv": "^17.2.1"
   },
   "devDependencies": {
+    "wrangler": "^3.79.0",
+    "@cloudflare/workers-types": "^4.20250101.0",
     "@hookform/resolvers": "^5.2.1",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.1.14",

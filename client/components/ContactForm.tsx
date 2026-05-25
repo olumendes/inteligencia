@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Mail, Phone, MessageSquare } from "lucide-react";
+import { apiClient, API_ENDPOINTS } from "@/config/api";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -24,16 +25,7 @@ export default function ContactForm() {
     setSuccess(false);
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Erro ao enviar mensagem");
-      }
-
+      await apiClient.post(API_ENDPOINTS.CONTACT, formData);
       setSuccess(true);
       setFormData({ name: "", email: "", phone: "", message: "" });
       setTimeout(() => setSuccess(false), 5000);
