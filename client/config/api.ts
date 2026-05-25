@@ -1,5 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 
-  'https://inteligencia-licitatoria-api.capital-finance.workers.dev';
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 export const apiClient = {
   get: async (endpoint: string) => {
