@@ -8,7 +8,7 @@ interface ContactRequest {
   message: string;
 }
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 export const handleContact: RequestHandler = async (req, res) => {
   try {
@@ -20,20 +20,24 @@ export const handleContact: RequestHandler = async (req, res) => {
       });
     }
 
-    await resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: "inteligencialicitatoria@gmail.com",
-      replyTo: email,
-      subject: `Novo contato de ${name}`,
-      html: `
-        <h2>Novo Contato Recebido</h2>
-        <p><strong>Nome:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        ${phone ? `<p><strong>Telefone:</strong> ${phone}</p>` : ""}
-        <p><strong>Mensagem:</strong></p>
-        <p>${message.replace(/\n/g, "<br>")}</p>
-      `,
-    });
+    if (resend) {
+      await resend.emails.send({
+        from: "onboarding@resend.dev",
+        to: "inteligencialicitatoria@gmail.com",
+        replyTo: email,
+        subject: `Novo contato de ${name}`,
+        html: `
+          <h2>Novo Contato Recebido</h2>
+          <p><strong>Nome:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          ${phone ? `<p><strong>Telefone:</strong> ${phone}</p>` : ""}
+          <p><strong>Mensagem:</strong></p>
+          <p>${message.replace(/\n/g, "<br>")}</p>
+        `,
+      });
+    } else {
+      console.warn('RESEND_API_KEY not configured - email not sent for contact');
+    }
 
     res.json({
       success: true,

@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx ./server/node-build.ts & vite",
+    "dev": "vite",
     "build": "npm run build:client",
     "build:client": "vite build",
     "build:workers": "wrangler deploy",
