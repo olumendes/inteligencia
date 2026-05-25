@@ -12,18 +12,17 @@ async function fetchWithFallback(url: string, options: RequestInit) {
   try {
     const response = await fetch(url, {
       ...options,
-      mode: 'cors',
-      credentials: 'omit',
+      credentials: 'include',
     });
     if (!response.ok) throw new Error(`API error: ${response.status}`);
     return response;
   } catch (error) {
     console.warn('API request failed, checking for mock:', url, error);
-    // Check if we have a mock for this endpoint
-    const endpoint = url.replace(API_URL, '');
-    if (mockResponses[endpoint]) {
+    // Extract endpoint from full URL
+    const endpoint = url.includes('/api/') ? url.substring(url.indexOf('/api/')) : url;
+    if (mockResponses[endpoint as keyof typeof mockResponses]) {
       console.warn('Using mock response for:', endpoint);
-      return new Response(JSON.stringify(mockResponses[endpoint]), {
+      return new Response(JSON.stringify(mockResponses[endpoint as keyof typeof mockResponses]), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
       });
