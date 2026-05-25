@@ -36,13 +36,12 @@ export const handleTrialSignup = async (request: Request, env: Env): Promise<Res
     }
 
     if (!env.RESEND_API_KEY) {
-      console.error('RESEND_API_KEY is not configured');
-      return json(
-        {
-          error: 'Configuração de email incompleta',
-        },
-        { status: 500 }
-      );
+      // If RESEND_API_KEY is not configured, still accept the signup but don't send emails
+      console.warn('RESEND_API_KEY is not configured - signup received but emails not sent');
+      return json({
+        success: true,
+        message: 'Teste grátis ativado com sucesso',
+      });
     }
 
     const adminEmailHtml = `

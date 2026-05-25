@@ -14,7 +14,10 @@
   },
   "dependencies": {
     "itty-router": "^5.0.5",
-    "dotenv": "^17.2.1"
+    "dotenv": "^17.2.1",
+    "express": "^4.21.0",
+    "cors": "^2.8.5",
+    "resend": "^3.0.0"
   },
   "devDependencies": {
     "wrangler": "^3.79.0",
