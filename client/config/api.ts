@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || '';
+const API_URL = '';
 
 // Mock responses for development/testing when backend is unavailable
 const mockResponses: { [key: string]: unknown } = {
