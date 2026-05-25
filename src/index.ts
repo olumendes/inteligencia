@@ -32,13 +32,28 @@ router.all('*', () => {
   return json({ error: 'Not Found' }, { status: 404 });
 });
 
+function addCorsHeaders(response: Response): Response {
+  const newResponse = new Response(response.body, response);
+  newResponse.headers.set('Access-Control-Allow-Origin', '*');
+  newResponse.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  newResponse.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  newResponse.headers.set('Access-Control-Max-Age', '86400');
+  return newResponse;
+}
+
 export default {
   fetch: (request: Request, env: Env, ctx: ExecutionContext) => {
+    // Handle CORS preflight requests
+    if (request.method === 'OPTIONS') {
+      return addCorsHeaders(new Response(null, { status: 204 }));
+    }
+
     try {
-      return router.handle(request, env, ctx);
+      const response = router.handle(request, env, ctx);
+      return Promise.resolve(response).then(addCorsHeaders);
     } catch (err) {
       console.error('Router error:', err);
-      return json({ error: 'Internal Server Error' }, { status: 500 });
+      return addCorsHeaders(json({ error: 'Internal Server Error' }, { status: 500 }));
     }
   },
 };
