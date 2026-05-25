@@ -1,4 +1,4 @@
-import { json, IRequest } from 'itty-router';
+import { json } from 'itty-router';
 
 interface ContactRequest {
   name: string;
@@ -11,7 +11,7 @@ interface Env {
   RESEND_API_KEY: string;
 }
 
-export const handleContact = async (request: IRequest, env?: Env): Promise<Response> => {
+export const handleContact = async (request: Request, env: Env): Promise<Response> => {
   try {
     const body = await request.json() as ContactRequest;
     const { name, email, phone, message } = body;

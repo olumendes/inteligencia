@@ -1,4 +1,4 @@
-import { json, IRequest } from 'itty-router';
+import { json } from 'itty-router';
 
 interface TrialSignupRequest {
   name: string;
@@ -10,7 +10,7 @@ interface Env {
   RESEND_API_KEY: string;
 }
 
-export const handleTrialSignup = async (request: IRequest, env?: Env): Promise<Response> => {
+export const handleTrialSignup = async (request: Request, env: Env): Promise<Response> => {
   try {
     const body = await request.json() as TrialSignupRequest;
     const { name, email, phone } = body;

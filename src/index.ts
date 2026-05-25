@@ -10,38 +10,35 @@ interface Env {
   GMAIL_APP_PASSWORD?: string;
 }
 
-const router = Router<{ Bindings: Env }>();
+const router = Router();
 
 // Ping endpoint
-router.get('/api/ping', (request, { PING_MESSAGE }) => {
-  const ping = PING_MESSAGE ?? 'ping';
+router.get('/api/ping', (request: Request, env: Env) => {
+  const ping = env?.PING_MESSAGE ?? 'ping';
   return json({ message: ping });
 });
 
 // Demo endpoint
-router.get('/api/demo', handleDemo);
+router.get('/api/demo', (request: Request, env: Env) => handleDemo(request, env));
 
 // Contact endpoint
-router.post('/api/contact', handleContact);
+router.post('/api/contact', (request: Request, env: Env) => handleContact(request, env));
 
 // Trial signup endpoint
-router.post('/api/trial-signup', handleTrialSignup);
+router.post('/api/trial-signup', (request: Request, env: Env) => handleTrialSignup(request, env));
 
 // 404 handler
 router.all('*', () => {
-  return new Response('{"error":"Not Found"}', {
-    status: 404,
-    headers: { 'Content-Type': 'application/json' }
-  });
+  return json({ error: 'Not Found' }, { status: 404 });
 });
 
 export default {
-  fetch: (request: Request, env: Env, ctx: ExecutionContext) =>
-    router.handle(request, env, ctx).catch(err => {
+  fetch: (request: Request, env: Env, ctx: ExecutionContext) => {
+    try {
+      return router.handle(request, env, ctx);
+    } catch (err) {
       console.error('Router error:', err);
-      return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }),
+      return json({ error: 'Internal Server Error' }, { status: 500 });
+    }
+  },
 };
