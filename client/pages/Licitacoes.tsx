@@ -203,21 +203,21 @@ export default function Licitacoes() {
               <div className="mt-8 lg:mt-0">
                 {/* Quick Filters */}
                 <div className="mb-8">
-                <h3 className="font-semibold text-foreground mb-3">
-                  Filtros Rápidos
-                </h3>
-                <button
-                  onClick={() => setSavedOnly(!savedOnly)}
-                  className={cn(
-                    "w-full px-4 py-2 rounded-lg font-medium transition-colors text-left flex items-center gap-2",
-                    savedOnly
-                      ? "bg-red-100 text-red-700"
-                      : "bg-background text-foreground/70 hover:bg-background"
-                  )}
-                >
-                  <Heart className="w-4 h-4" />
-                  Apenas Salvas
-                </button>
+                  <h3 className="font-semibold text-foreground mb-3">
+                    Filtros Rápidos
+                  </h3>
+                  <button
+                    onClick={() => setSavedOnly(!savedOnly)}
+                    className={cn(
+                      "w-full px-4 py-2 rounded-lg font-medium transition-colors text-left flex items-center gap-2",
+                      savedOnly
+                        ? "bg-red-100 text-red-700"
+                        : "bg-background text-foreground/70 hover:bg-background"
+                    )}
+                  >
+                    <Heart className="w-4 h-4" />
+                    Apenas Salvas
+                  </button>
                 </div>
 
                 {/* Status Filter */}
