@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Search,
@@ -39,8 +39,7 @@ export default function Licitacoes() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(typeof window !== "undefined" ? window.innerWidth < 1024 : false);
 
-  useMemo(() => {
-    if (typeof window === "undefined") return;
+  useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 1024);
     };
@@ -205,10 +204,14 @@ export default function Licitacoes() {
         <div className="flex h-[calc(100vh-120px)] relative">
           {/* Filters Sidebar */}
           <aside
-            className={cn(
-              "fixed lg:static top-[120px] left-0 h-screen lg:h-full w-64 bg-white border-r border-border overflow-y-auto z-30 transition-transform",
-              !isMobile ? "translate-x-0" : filtersOpen ? "translate-x-0" : "-translate-x-full"
-            )}
+            className="w-64 bg-white border-r border-border overflow-y-auto z-30 transition-transform"
+            style={{
+              position: isMobile ? "fixed" : "static",
+              top: isMobile ? "120px" : "auto",
+              left: 0,
+              height: isMobile ? "100vh" : "100%",
+              transform: !isMobile ? "translateX(0)" : filtersOpen ? "translateX(0)" : "translateX(-100%)"
+            }}
           >
             <div className="p-6">
               {/* Close Button */}
