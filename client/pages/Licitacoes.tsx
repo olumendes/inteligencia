@@ -165,12 +165,9 @@ export default function Licitacoes() {
         {/* Header */}
         <header className="bg-white border-b border-border sticky top-0 z-40">
           <div className="px-6 py-4">
-            <div className="flex items-center gap-3 mb-4">
-              <img src="/logo.png" alt="Logo" className="h-8 w-8" />
-              <h1 className="text-3xl font-bold text-foreground">
-                Licitações
-              </h1>
-            </div>
+            <h1 className="text-3xl font-bold text-foreground mb-4">
+              Licitações
+            </h1>
 
             {/* Search Bar */}
             <div className="flex gap-2">
