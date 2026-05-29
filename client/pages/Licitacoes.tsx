@@ -175,9 +175,9 @@ export default function Licitacoes() {
           </div>
         </header>
 
-        <div className="flex">
+        <div className="flex h-[calc(100vh-120px)]">
           {/* Filters Sidebar */}
-          <aside className="hidden lg:block w-64 bg-white border-r border-border overflow-y-auto max-h-[calc(100vh-120px)]">
+          <aside className="hidden lg:block w-64 bg-white border-r border-border overflow-y-auto">
             <div className="p-6">
               {/* Quick Filters */}
               <div className="mb-8">
@@ -444,7 +444,7 @@ export default function Licitacoes() {
           </aside>
 
           {/* Main Content */}
-          <div className="flex-1 p-6">
+          <div className="flex-1 p-6 overflow-y-auto">
             {/* Sort Options */}
             <div className="flex items-center justify-between mb-6">
               <span className="text-sm text-foreground/60">
