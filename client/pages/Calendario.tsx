@@ -1,41 +1,51 @@
 import { useState, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Mail } from "lucide-react";
+import { ChevronLeft, ChevronRight, Mail, X } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import { cn } from "@/lib/utils";
 
 interface Boletim {
   id: string;
+  numero: string;
   titulo: string;
   data: string;
   descricao: string;
+  conteudo: string;
 }
 
 // Mock data - substitua com dados reais do Python
 const mockBoletins: Boletim[] = [
   {
     id: "1",
+    numero: "BL-2024-001",
     titulo: "Boletim de Licitações",
     data: "2024-01-15",
-    descricao: "5 novas licitações publicadas"
+    descricao: "5 novas licitações publicadas",
+    conteudo: "Detalhes completos do boletim BL-2024-001 com todas as licitações publicadas."
   },
   {
     id: "2",
+    numero: "BL-2024-002",
     titulo: "Atualização de Editais",
     data: "2024-01-15",
-    descricao: "2 editais atualizados"
+    descricao: "2 editais atualizados",
+    conteudo: "Detalhes completos do boletim BL-2024-002 com as atualizações de editais."
   },
   {
     id: "3",
+    numero: "BL-2024-003",
     titulo: "Boletim Semanal",
     data: "2024-01-18",
-    descricao: "Resumo da semana - 12 licitações"
+    descricao: "Resumo da semana - 12 licitações",
+    conteudo: "Detalhes completos do boletim BL-2024-003 com o resumo semanal."
   },
   {
     id: "4",
+    numero: "BL-2024-004",
     titulo: "Avisos Importantes",
     data: "2024-01-20",
-    descricao: "3 prazos expiram em breve"
+    descricao: "3 prazos expiram em breve",
+    conteudo: "Detalhes completos do boletim BL-2024-004 com avisos importantes."
   },
 ];
 
@@ -43,6 +53,7 @@ export default function Calendario() {
   const navigate = useNavigate();
   const { email } = useParams<{ email?: string }>();
   const [currentDate, setCurrentDate] = useState(new Date(2024, 0, 1));
+  const [selectedBoletim, setSelectedBoletim] = useState<Boletim | null>(null);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -145,12 +156,15 @@ export default function Calendario() {
                   return (
                     <button
                       key={day}
+                      onClick={() => hasBoletins && setSelectedBoletim(boletins[0])}
+                      disabled={!hasBoletins}
                       className={cn(
-                        "aspect-square p-2 rounded-lg border transition-colors flex flex-col items-center justify-center text-sm font-medium",
+                        "aspect-square p-2 rounded-lg border transition-colors flex flex-col items-center justify-center text-sm font-medium cursor-pointer",
                         hasBoletins
-                          ? "bg-primary/10 border-primary text-primary"
-                          : "bg-background border-border text-foreground hover:bg-background/80"
+                          ? "bg-primary/10 border-primary text-primary hover:bg-primary/20"
+                          : "bg-background border-border text-foreground cursor-default"
                       )}
+                      title={hasBoletins ? `${boletins.length} boletim(ns)` : ""}
                     >
                       <span>{day}</span>
                       {hasBoletins && (
@@ -170,13 +184,17 @@ export default function Calendario() {
               <div className="space-y-3 max-h-96 overflow-y-auto">
                 {mockBoletins.length > 0 ? (
                   mockBoletins.map((boletim) => (
-                    <div
+                    <button
                       key={boletim.id}
-                      className="p-3 bg-background rounded-lg border border-border hover:border-primary/30 transition-colors"
+                      onClick={() => setSelectedBoletim(boletim)}
+                      className="w-full p-3 bg-background rounded-lg border border-border hover:border-primary/50 hover:bg-primary/5 transition-colors text-left"
                     >
                       <div className="flex items-start gap-2">
                         <Mail className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                         <div className="flex-1 min-w-0">
+                          <p className="text-xs font-semibold text-primary mb-1">
+                            {boletim.numero}
+                          </p>
                           <p className="text-sm font-medium text-foreground truncate">
                             {boletim.titulo}
                           </p>
@@ -188,7 +206,7 @@ export default function Calendario() {
                           </p>
                         </div>
                       </div>
-                    </div>
+                    </button>
                   ))
                 ) : (
                   <p className="text-sm text-foreground/60 text-center py-8">
@@ -198,6 +216,45 @@ export default function Calendario() {
               </div>
             </div>
           </div>
+
+          {/* Modal de detalhes do boletim */}
+          {selectedBoletim && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+              <div className="bg-white rounded-lg max-w-2xl w-full max-h-96 overflow-y-auto">
+                <div className="sticky top-0 flex items-center justify-between p-6 border-b border-border bg-white">
+                  <div>
+                    <p className="text-sm font-semibold text-primary mb-1">
+                      {selectedBoletim.numero}
+                    </p>
+                    <h2 className="text-2xl font-bold text-foreground">
+                      {selectedBoletim.titulo}
+                    </h2>
+                  </div>
+                  <button
+                    onClick={() => setSelectedBoletim(null)}
+                    className="p-2 hover:bg-background rounded-lg transition-colors"
+                  >
+                    <X className="w-5 h-5 text-foreground" />
+                  </button>
+                </div>
+                <div className="p-6">
+                  <p className="text-sm text-foreground/60 mb-4">
+                    {new Date(selectedBoletim.data).toLocaleDateString("pt-BR", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric"
+                    })}
+                  </p>
+                  <div className="prose prose-sm max-w-none">
+                    <p className="text-foreground/80">
+                      {selectedBoletim.conteudo}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </main>
     </div>
