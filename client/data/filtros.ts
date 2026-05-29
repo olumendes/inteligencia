@@ -33,6 +33,29 @@ export const FILTROS_DISPONIVEIS: Filtros = {
     { id: "50k_500k", label: "R$ 50.000 - R$ 500.000", count: 134 },
     { id: "acima_500k", label: "Acima de R$ 500.000", count: 27 },
   ],
+  municipio: [
+    { id: "sao_paulo", label: "São Paulo", count: 156 },
+    { id: "rio_janeiro", label: "Rio de Janeiro", count: 89 },
+    { id: "belo_horizonte", label: "Belo Horizonte", count: 45 },
+    { id: "curitiba", label: "Curitiba", count: 34 },
+    { id: "brasilia", label: "Brasília", count: 78 },
+    { id: "salvador", label: "Salvador", count: 42 },
+  ],
+  esfera: [
+    { id: "federal", label: "Federal", count: 139 },
+    { id: "estadual", label: "Estadual", count: 156 },
+    { id: "municipal", label: "Municipal", count: 89 },
+  ],
+  poder: [
+    { id: "executivo", label: "Executivo", count: 234 },
+    { id: "legislativo", label: "Legislativo", count: 45 },
+    { id: "judiciario", label: "Judiciário", count: 32 },
+  ],
+  tipo: [
+    { id: "bens", label: "Bens", count: 156 },
+    { id: "servicos", label: "Serviços", count: 178 },
+    { id: "obras", label: "Obras", count: 89 },
+  ],
 };
 
 export const UF_FILTER = {

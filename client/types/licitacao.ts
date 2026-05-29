@@ -6,6 +6,10 @@ export interface Licitacao {
   modalidade: string;
   orgao: string;
   uf?: string;
+  municipio?: string;
+  esfera?: string;
+  poder?: string;
+  tipo?: string;
   dataAbertura: string;
   dataEncerramento: string;
   descricao: string;
@@ -41,4 +45,8 @@ export interface Filtros {
   modalidade: Filtro[];
   orgao: Filtro[];
   valor: Filtro[];
+  municipio?: Filtro[];
+  esfera?: Filtro[];
+  poder?: Filtro[];
+  tipo?: Filtro[];
 }
