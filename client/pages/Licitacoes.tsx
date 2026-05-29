@@ -154,7 +154,7 @@ export default function Licitacoes() {
 
       <main className="flex-1 md:ml-0">
         {/* Header */}
-        <header className="bg-white border-b border-border sticky top-0 z-10">
+        <header className="bg-white border-b border-border sticky top-0 z-40">
           <div className="px-6 py-4">
             <h1 className="text-3xl font-bold text-foreground mb-4">
               Licitações
@@ -182,6 +182,15 @@ export default function Licitacoes() {
             </div>
           </div>
         </header>
+
+        {/* Backdrop (Mobile Only) */}
+        {filtersOpen && (
+          <div
+            className="fixed inset-0 bg-black/50 z-20 lg:hidden"
+            onClick={() => setFiltersOpen(false)}
+            style={{ top: "120px" }}
+          />
+        )}
 
         <div className="flex h-[calc(100vh-120px)] relative">
           {/* Filters Sidebar */}
