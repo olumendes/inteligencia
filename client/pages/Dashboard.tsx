@@ -14,7 +14,7 @@ interface UserInfo {
 const USER_DATA: UserInfo = {
   id: "user-001",
   email: "oluanmendes@gmail.com",
-  name: "luan Mendes",
+  name: "Luan Mendes",
   createdAt: "15/01/2024",
   plan: "premium",
   status: "active",
