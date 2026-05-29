@@ -222,221 +222,221 @@ export default function Licitacoes() {
 
                 {/* Status Filter */}
                 <div className="mb-6">
-                <h4 className="text-sm font-semibold text-foreground mb-2">
-                  Status
-                </h4>
-                <div className="space-y-2">
-                  {FILTROS_DISPONIVEIS.status.map((filter) => (
-                    <label key={filter.id} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={selectedFilters.status.includes(filter.id)}
-                        onChange={() => toggleFilter("status", filter.id)}
-                        className="w-4 h-4 rounded border-border"
-                      />
-                      <span className="text-sm text-foreground/70">
-                        {filter.label}
-                      </span>
-                      <span className="text-xs text-foreground/50 ml-auto">
-                        ({filter.count})
-                      </span>
-                    </label>
-                  ))}
-                </div>
+                  <h4 className="text-sm font-semibold text-foreground mb-2">
+                    Status
+                  </h4>
+                  <div className="space-y-2">
+                    {FILTROS_DISPONIVEIS.status.map((filter) => (
+                      <label key={filter.id} className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedFilters.status.includes(filter.id)}
+                          onChange={() => toggleFilter("status", filter.id)}
+                          className="w-4 h-4 rounded border-border"
+                        />
+                        <span className="text-sm text-foreground/70">
+                          {filter.label}
+                        </span>
+                        <span className="text-xs text-foreground/50 ml-auto">
+                          ({filter.count})
+                        </span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Modalidade Filter */}
                 <div className="mb-6">
-                <h4 className="text-sm font-semibold text-foreground mb-2">
-                  Modalidade
-                </h4>
-                <div className="space-y-2 max-h-72 overflow-y-auto">
-                  {FILTROS_DISPONIVEIS.modalidade.map((filter) => (
-                    <label key={filter.id} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={selectedFilters.modalidade.includes(filter.id)}
-                        onChange={() =>
-                          toggleFilter("modalidade", filter.id)
-                        }
-                        className="w-4 h-4 rounded border-border"
-                      />
-                      <span className="text-sm text-foreground/70">
-                        {filter.label}
-                      </span>
-                      <span className="text-xs text-foreground/50 ml-auto">
-                        ({filter.count})
-                      </span>
-                    </label>
-                  ))}
-                </div>
+                  <h4 className="text-sm font-semibold text-foreground mb-2">
+                    Modalidade
+                  </h4>
+                  <div className="space-y-2 max-h-72 overflow-y-auto">
+                    {FILTROS_DISPONIVEIS.modalidade.map((filter) => (
+                      <label key={filter.id} className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedFilters.modalidade.includes(filter.id)}
+                          onChange={() =>
+                            toggleFilter("modalidade", filter.id)
+                          }
+                          className="w-4 h-4 rounded border-border"
+                        />
+                        <span className="text-sm text-foreground/70">
+                          {filter.label}
+                        </span>
+                        <span className="text-xs text-foreground/50 ml-auto">
+                          ({filter.count})
+                        </span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Razão Social do Órgão Filter */}
                 <div className="mb-6">
-                <h4 className="text-sm font-semibold text-foreground mb-2">
-                  Razão Social do Órgão
-                </h4>
-                <input
-                  type="text"
-                  placeholder="Digite o nome do órgão..."
-                  value={orgaoSearch}
-                  onChange={(e) => setOrgaoSearch(e.target.value)}
-                  className="w-full px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                />
+                  <h4 className="text-sm font-semibold text-foreground mb-2">
+                    Razão Social do Órgão
+                  </h4>
+                  <input
+                    type="text"
+                    placeholder="Digite o nome do órgão..."
+                    value={orgaoSearch}
+                    onChange={(e) => setOrgaoSearch(e.target.value)}
+                    className="w-full px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                  />
                 </div>
 
                 {/* Esfera Filter */}
                 <div className="mb-6">
-                <h4 className="text-sm font-semibold text-foreground mb-2">
-                  Esfera
-                </h4>
-                <div className="space-y-2">
-                  {FILTROS_DISPONIVEIS.esfera?.map((filter) => (
-                    <label key={filter.id} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={selectedFilters.esfera.includes(filter.id)}
-                        onChange={() => toggleFilter("esfera", filter.id)}
-                        className="w-4 h-4 rounded border-border"
-                      />
-                      <span className="text-sm text-foreground/70">
-                        {filter.label}
-                      </span>
-                      <span className="text-xs text-foreground/50 ml-auto">
-                        ({filter.count})
-                      </span>
-                    </label>
-                  ))}
-                </div>
+                  <h4 className="text-sm font-semibold text-foreground mb-2">
+                    Esfera
+                  </h4>
+                  <div className="space-y-2">
+                    {FILTROS_DISPONIVEIS.esfera?.map((filter) => (
+                      <label key={filter.id} className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedFilters.esfera.includes(filter.id)}
+                          onChange={() => toggleFilter("esfera", filter.id)}
+                          className="w-4 h-4 rounded border-border"
+                        />
+                        <span className="text-sm text-foreground/70">
+                          {filter.label}
+                        </span>
+                        <span className="text-xs text-foreground/50 ml-auto">
+                          ({filter.count})
+                        </span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Poder Filter */}
                 <div className="mb-6">
-                <h4 className="text-sm font-semibold text-foreground mb-2">
-                  Poder
-                </h4>
-                <div className="space-y-2">
-                  {FILTROS_DISPONIVEIS.poder?.map((filter) => (
-                    <label key={filter.id} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={selectedFilters.poder.includes(filter.id)}
-                        onChange={() => toggleFilter("poder", filter.id)}
-                        className="w-4 h-4 rounded border-border"
-                      />
-                      <span className="text-sm text-foreground/70">
-                        {filter.label}
-                      </span>
-                      <span className="text-xs text-foreground/50 ml-auto">
-                        ({filter.count})
-                      </span>
-                    </label>
-                  ))}
-                </div>
+                  <h4 className="text-sm font-semibold text-foreground mb-2">
+                    Poder
+                  </h4>
+                  <div className="space-y-2">
+                    {FILTROS_DISPONIVEIS.poder?.map((filter) => (
+                      <label key={filter.id} className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedFilters.poder.includes(filter.id)}
+                          onChange={() => toggleFilter("poder", filter.id)}
+                          className="w-4 h-4 rounded border-border"
+                        />
+                        <span className="text-sm text-foreground/70">
+                          {filter.label}
+                        </span>
+                        <span className="text-xs text-foreground/50 ml-auto">
+                          ({filter.count})
+                        </span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Tipo Filter */}
                 <div className="mb-6">
-                <h4 className="text-sm font-semibold text-foreground mb-2">
-                  Tipo
-                </h4>
-                <div className="space-y-2">
-                  {FILTROS_DISPONIVEIS.tipo?.map((filter) => (
-                    <label key={filter.id} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={selectedFilters.tipo.includes(filter.id)}
-                        onChange={() => toggleFilter("tipo", filter.id)}
-                        className="w-4 h-4 rounded border-border"
-                      />
-                      <span className="text-sm text-foreground/70">
-                        {filter.label}
-                      </span>
-                      <span className="text-xs text-foreground/50 ml-auto">
-                        ({filter.count})
-                      </span>
-                    </label>
-                  ))}
-                </div>
+                  <h4 className="text-sm font-semibold text-foreground mb-2">
+                    Tipo
+                  </h4>
+                  <div className="space-y-2">
+                    {FILTROS_DISPONIVEIS.tipo?.map((filter) => (
+                      <label key={filter.id} className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedFilters.tipo.includes(filter.id)}
+                          onChange={() => toggleFilter("tipo", filter.id)}
+                          className="w-4 h-4 rounded border-border"
+                        />
+                        <span className="text-sm text-foreground/70">
+                          {filter.label}
+                        </span>
+                        <span className="text-xs text-foreground/50 ml-auto">
+                          ({filter.count})
+                        </span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Municípios Filter */}
                 <div className="mb-6">
-                <h4 className="text-sm font-semibold text-foreground mb-2">
-                  Municípios
-                </h4>
-                <div className="space-y-2 max-h-72 overflow-y-auto">
-                  {FILTROS_DISPONIVEIS.municipio?.map((filter) => (
-                    <label key={filter.id} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={selectedFilters.municipio.includes(filter.id)}
-                        onChange={() => toggleFilter("municipio", filter.id)}
-                        className="w-4 h-4 rounded border-border"
-                      />
-                      <span className="text-sm text-foreground/70">
-                        {filter.label}
-                      </span>
-                      <span className="text-xs text-foreground/50 ml-auto">
-                        ({filter.count})
-                      </span>
-                    </label>
-                  ))}
-                </div>
+                  <h4 className="text-sm font-semibold text-foreground mb-2">
+                    Municípios
+                  </h4>
+                  <div className="space-y-2 max-h-72 overflow-y-auto">
+                    {FILTROS_DISPONIVEIS.municipio?.map((filter) => (
+                      <label key={filter.id} className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedFilters.municipio.includes(filter.id)}
+                          onChange={() => toggleFilter("municipio", filter.id)}
+                          className="w-4 h-4 rounded border-border"
+                        />
+                        <span className="text-sm text-foreground/70">
+                          {filter.label}
+                        </span>
+                        <span className="text-xs text-foreground/50 ml-auto">
+                          ({filter.count})
+                        </span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
 
                 {/* UF Filter */}
                 <div className="mb-6">
-                <h4 className="text-sm font-semibold text-foreground mb-3">
-                  UF
-                </h4>
-                <div className="space-y-3">
-                  {Object.entries(UF_FILTER).map(([regionKey, region]) => (
-                    <div key={regionKey}>
-                      <button
-                        onClick={() =>
-                          setExpandedUfRegion(
-                            expandedUfRegion === regionKey ? null : regionKey
-                          )
-                        }
-                        className="w-full text-left px-3 py-2 hover:bg-background rounded-lg transition-colors flex items-center justify-between"
-                      >
-                        <span className="text-sm font-medium text-foreground">
-                          {region.label} (0/{region.states.length})
-                        </span>
-                        <ChevronDown
-                          className={cn(
-                            "w-4 h-4 transition-transform",
-                            expandedUfRegion === regionKey && "rotate-180"
-                          )}
-                        />
-                      </button>
-                      {expandedUfRegion === regionKey && (
-                        <div className="ml-4 mt-2 space-y-2">
-                          {region.states.map((state) => (
-                            <label
-                              key={state.id}
-                              className="flex items-center gap-2"
-                            >
-                              <input
-                                type="checkbox"
-                                checked={selectedFilters.uf.includes(state.id)}
-                                onChange={() =>
-                                  toggleFilter("uf", state.id)
-                                }
-                                className="w-4 h-4 rounded border-border"
-                              />
-                              <span className="text-sm text-foreground/70">
-                                {state.label}
-                              </span>
-                            </label>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+                  <h4 className="text-sm font-semibold text-foreground mb-3">
+                    UF
+                  </h4>
+                  <div className="space-y-3">
+                    {Object.entries(UF_FILTER).map(([regionKey, region]) => (
+                      <div key={regionKey}>
+                        <button
+                          onClick={() =>
+                            setExpandedUfRegion(
+                              expandedUfRegion === regionKey ? null : regionKey
+                            )
+                          }
+                          className="w-full text-left px-3 py-2 hover:bg-background rounded-lg transition-colors flex items-center justify-between"
+                        >
+                          <span className="text-sm font-medium text-foreground">
+                            {region.label} (0/{region.states.length})
+                          </span>
+                          <ChevronDown
+                            className={cn(
+                              "w-4 h-4 transition-transform",
+                              expandedUfRegion === regionKey && "rotate-180"
+                            )}
+                          />
+                        </button>
+                        {expandedUfRegion === regionKey && (
+                          <div className="ml-4 mt-2 space-y-2">
+                            {region.states.map((state) => (
+                              <label
+                                key={state.id}
+                                className="flex items-center gap-2"
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={selectedFilters.uf.includes(state.id)}
+                                  onChange={() =>
+                                    toggleFilter("uf", state.id)
+                                  }
+                                  className="w-4 h-4 rounded border-border"
+                                />
+                                <span className="text-sm text-foreground/70">
+                                  {state.label}
+                                </span>
+                              </label>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Clear Filters */}
