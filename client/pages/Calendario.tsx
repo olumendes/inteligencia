@@ -152,25 +152,57 @@ export default function Calendario() {
                 {calendarDays.map((day) => {
                   const boletins = getDayBoletins(day);
                   const hasBoletins = boletins.length > 0;
+                  const [showList, setShowList] = useState(false);
 
                   return (
-                    <button
-                      key={day}
-                      onClick={() => hasBoletins && setSelectedBoletim(boletins[0])}
-                      disabled={!hasBoletins}
-                      className={cn(
-                        "aspect-square p-2 rounded-lg border transition-colors flex flex-col items-center justify-center text-sm font-medium cursor-pointer",
-                        hasBoletins
-                          ? "bg-primary/10 border-primary text-primary hover:bg-primary/20"
-                          : "bg-background border-border text-foreground cursor-default"
+                    <div key={day} className="relative">
+                      <button
+                        onClick={() => hasBoletins && setShowList(!showList)}
+                        disabled={!hasBoletins}
+                        className={cn(
+                          "w-full aspect-square p-2 rounded-lg border transition-colors flex flex-col items-center justify-center text-sm font-medium cursor-pointer",
+                          hasBoletins
+                            ? "bg-primary/10 border-primary text-primary hover:bg-primary/20"
+                            : "bg-background border-border text-foreground cursor-default"
+                        )}
+                        title={hasBoletins ? `${boletins.length} boletim(ns)` : ""}
+                      >
+                        <span>{day}</span>
+                        {hasBoletins && (
+                          <div className="flex items-center gap-0.5 mt-1">
+                            <Mail className="w-3 h-3" />
+                            {boletins.length > 1 && (
+                              <span className="text-xs font-bold">
+                                {boletins.length}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </button>
+
+                      {/* Dropdown com lista de boletins */}
+                      {showList && hasBoletins && (
+                        <div className="absolute top-full left-0 mt-1 bg-white border border-primary rounded-lg shadow-lg z-20 min-w-max">
+                          {boletins.map((boletim) => (
+                            <button
+                              key={boletim.id}
+                              onClick={() => {
+                                setSelectedBoletim(boletim);
+                                setShowList(false);
+                              }}
+                              className="w-full text-left px-3 py-2 hover:bg-primary/10 transition-colors first:rounded-t-lg last:rounded-b-lg border-b border-border last:border-b-0 text-xs"
+                            >
+                              <p className="font-semibold text-primary">
+                                {boletim.numero}
+                              </p>
+                              <p className="text-foreground/70 truncate">
+                                {boletim.titulo}
+                              </p>
+                            </button>
+                          ))}
+                        </div>
                       )}
-                      title={hasBoletins ? `${boletins.length} boletim(ns)` : ""}
-                    >
-                      <span>{day}</span>
-                      {hasBoletins && (
-                        <Mail className="w-3 h-3 mt-1" />
-                      )}
-                    </button>
+                    </div>
                   );
                 })}
               </div>
