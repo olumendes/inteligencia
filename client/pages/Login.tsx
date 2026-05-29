@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoginRequest, LoginResponse } from "@shared/api";
 import { AlertCircle, Loader2 } from "lucide-react";
+
+const TEST_USER = {
+  id: "user-001",
+  email: "oluanmendes@gmail.com",
+  password: "Lu040768!",
+  name: "Oluam Mendes",
+};
 
 export default function Login() {
   const navigate = useNavigate();
@@ -15,39 +21,19 @@ export default function Login() {
     setError("");
     setLoading(true);
 
-    try {
-      const loginData: LoginRequest = { email, password };
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(loginData),
-      });
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 500));
 
-      if (!response.ok) {
-        setError("Erro ao conectar com o servidor");
-        return;
-      }
-
-      const text = await response.text();
-      if (!text) {
-        setError("Resposta vazia do servidor");
-        return;
-      }
-
-      const data: LoginResponse = JSON.parse(text);
-
-      if (data.success && data.user) {
-        // Store user info in localStorage
-        localStorage.setItem("user", JSON.stringify(data.user));
-        navigate(`/dashboard/${data.user.email}`);
-      } else {
-        setError(data.message || "Login falhou");
-      }
-    } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : "Erro desconhecido";
-      setError(`Erro ao conectar: ${errorMsg}`);
-      console.error(err);
-    } finally {
+    if (email === TEST_USER.email && password === TEST_USER.password) {
+      // Store user info in localStorage
+      localStorage.setItem("user", JSON.stringify({
+        id: TEST_USER.id,
+        email: TEST_USER.email,
+        name: TEST_USER.name,
+      }));
+      navigate(`/dashboard/${TEST_USER.email}`);
+    } else {
+      setError("Email ou senha incorretos");
       setLoading(false);
     }
   };

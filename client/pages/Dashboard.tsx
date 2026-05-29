@@ -1,7 +1,24 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { UserInfo } from "@shared/api";
 import { LogOut, Mail, User, Calendar, Star, CheckCircle, Settings } from "lucide-react";
+
+interface UserInfo {
+  id: string;
+  email: string;
+  name: string;
+  createdAt: string;
+  plan: string;
+  status: string;
+}
+
+const USER_DATA: UserInfo = {
+  id: "user-001",
+  email: "oluanmendes@gmail.com",
+  name: "Oluam Mendes",
+  createdAt: "15/01/2024",
+  plan: "premium",
+  status: "active",
+};
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -11,28 +28,13 @@ export default function Dashboard() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      if (!email) {
-        setError("Email não fornecido");
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const response = await fetch(`/api/user-info?email=${encodeURIComponent(email)}`);
-        if (!response.ok) {
-          throw new Error("Falha ao carregar informações do usuário");
-        }
-        const data: UserInfo = await response.json();
-        setUserInfo(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Erro desconhecido");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserInfo();
+    if (email === USER_DATA.email) {
+      setUserInfo(USER_DATA);
+      setLoading(false);
+    } else {
+      setError("Usuário não encontrado");
+      setLoading(false);
+    }
   }, [email]);
 
   const handleLogout = () => {
