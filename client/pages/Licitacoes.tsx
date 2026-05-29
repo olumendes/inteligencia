@@ -174,7 +174,7 @@ export default function Licitacoes() {
               </div>
               <button
                 onClick={() => setFiltersOpen(!filtersOpen)}
-                className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center gap-2 lg:hidden"
+                className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center gap-2 lg:hidden relative z-10"
               >
                 <Filter className="w-5 h-5" />
                 Filtrar
@@ -183,19 +183,19 @@ export default function Licitacoes() {
           </div>
         </header>
 
-        <div className="flex h-[calc(100vh-120px)]">
+        <div className="flex h-[calc(100vh-120px)] relative">
           {/* Filters Sidebar */}
           <aside
             className={cn(
-              "fixed lg:static top-0 left-0 h-screen lg:h-full w-64 bg-white border-r border-border overflow-y-auto z-30 transition-transform",
+              "fixed lg:static top-[120px] left-0 h-screen lg:h-full w-64 bg-white border-r border-border overflow-y-auto z-30 transition-transform",
               filtersOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
             )}
           >
-            <div className="p-6 relative">
+            <div className="p-6">
               {/* Close Button (Mobile Only) */}
               <button
                 onClick={() => setFiltersOpen(false)}
-                className="lg:hidden absolute top-4 right-4 p-2 hover:bg-background rounded-lg transition-colors"
+                className="lg:hidden absolute top-4 right-4 p-2 hover:bg-background rounded-lg transition-colors z-40"
               >
                 <X className="w-5 h-5 text-foreground" />
               </button>
