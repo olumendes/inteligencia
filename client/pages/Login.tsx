@@ -6,7 +6,7 @@ const TEST_USER = {
   id: "user-001",
   email: "oluanmendes@gmail.com",
   password: "Lu040768!",
-  name: "Oluam Mendes",
+  name: "luan Mendes",
 };
 
 export default function Login() {
