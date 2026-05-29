@@ -5,6 +5,7 @@ export interface Licitacao {
   status: "aberta" | "encerrada" | "resultado";
   modalidade: string;
   orgao: string;
+  uf?: string;
   dataAbertura: string;
   dataEncerramento: string;
   descricao: string;

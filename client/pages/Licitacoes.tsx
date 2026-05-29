@@ -8,11 +8,12 @@ import {
   DollarSign,
   Calendar,
   Building2,
+  ChevronDown,
 } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import { Licitacao } from "@/types/licitacao";
 import { mockLicitacoes } from "@/data/mockLicitacoes";
-import { FILTROS_DISPONIVEIS } from "@/data/filtros";
+import { FILTROS_DISPONIVEIS, UF_FILTER } from "@/data/filtros";
 import { cn } from "@/lib/utils";
 
 export default function Licitacoes() {
@@ -24,11 +25,12 @@ export default function Licitacoes() {
   }>({
     status: [],
     modalidade: [],
-    orgao: [],
-    valor: [],
+    uf: [],
   });
+  const [orgaoSearch, setOrgaoSearch] = useState("");
   const [savedOnly, setSavedOnly] = useState(false);
   const [sortBy, setSortBy] = useState<"data" | "valor">("data");
+  const [expandedUfRegion, setExpandedUfRegion] = useState<string | null>(null);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -64,26 +66,16 @@ export default function Licitacoes() {
         selectedFilters.modalidade.includes(l.modalidade)
       );
     }
-    if (selectedFilters.orgao.length > 0) {
+    if (selectedFilters.uf.length > 0) {
       result = result.filter((l) =>
-        selectedFilters.orgao.includes(l.orgao)
+        selectedFilters.uf.includes(l.uf || "")
       );
     }
-    if (selectedFilters.valor.length > 0) {
-      result = result.filter((l) => {
-        for (const valorRange of selectedFilters.valor) {
-          const val = l.valor;
-          if (
-            (valorRange === "ate_5k" && val <= 5000) ||
-            (valorRange === "5k_50k" && val > 5000 && val <= 50000) ||
-            (valorRange === "50k_500k" && val > 50000 && val <= 500000) ||
-            (valorRange === "acima_500k" && val > 500000)
-          ) {
-            return true;
-          }
-        }
-        return false;
-      });
+    if (orgaoSearch.trim()) {
+      const search = orgaoSearch.toLowerCase();
+      result = result.filter((l) =>
+        l.orgao.toLowerCase().includes(search)
+      );
     }
 
     // Ordenação
@@ -98,7 +90,7 @@ export default function Licitacoes() {
     }
 
     return result;
-  }, [searchTerm, selectedFilters, savedOnly, sortBy]);
+  }, [searchTerm, selectedFilters, orgaoSearch, savedOnly, sortBy]);
 
   const toggleFilter = (category: string, filterId: string) => {
     setSelectedFilters((prev) => ({
@@ -212,7 +204,7 @@ export default function Licitacoes() {
                 <h4 className="text-sm font-semibold text-foreground mb-2">
                   Modalidade
                 </h4>
-                <div className="space-y-2">
+                <div className="space-y-2 max-h-72 overflow-y-auto">
                   {FILTROS_DISPONIVEIS.modalidade.map((filter) => (
                     <label key={filter.id} className="flex items-center gap-2">
                       <input
@@ -234,67 +226,85 @@ export default function Licitacoes() {
                 </div>
               </div>
 
-              {/* Órgão Filter */}
+              {/* Razão Social do Órgão Filter */}
               <div className="mb-6">
                 <h4 className="text-sm font-semibold text-foreground mb-2">
-                  Órgão
+                  Razão Social do Órgão
                 </h4>
-                <div className="space-y-2">
-                  {FILTROS_DISPONIVEIS.orgao.map((filter) => (
-                    <label key={filter.id} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={selectedFilters.orgao.includes(filter.id)}
-                        onChange={() => toggleFilter("orgao", filter.id)}
-                        className="w-4 h-4 rounded border-border"
-                      />
-                      <span className="text-sm text-foreground/70">
-                        {filter.label}
-                      </span>
-                      <span className="text-xs text-foreground/50 ml-auto">
-                        ({filter.count})
-                      </span>
-                    </label>
-                  ))}
-                </div>
+                <input
+                  type="text"
+                  placeholder="Digite o nome do órgão..."
+                  value={orgaoSearch}
+                  onChange={(e) => setOrgaoSearch(e.target.value)}
+                  className="w-full px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                />
               </div>
 
-              {/* Valor Filter */}
+              {/* UF Filter */}
               <div className="mb-6">
-                <h4 className="text-sm font-semibold text-foreground mb-2">
-                  Valor
+                <h4 className="text-sm font-semibold text-foreground mb-3">
+                  UF
                 </h4>
-                <div className="space-y-2">
-                  {FILTROS_DISPONIVEIS.valor.map((filter) => (
-                    <label key={filter.id} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={selectedFilters.valor.includes(filter.id)}
-                        onChange={() => toggleFilter("valor", filter.id)}
-                        className="w-4 h-4 rounded border-border"
-                      />
-                      <span className="text-sm text-foreground/70">
-                        {filter.label}
-                      </span>
-                      <span className="text-xs text-foreground/50 ml-auto">
-                        ({filter.count})
-                      </span>
-                    </label>
+                <div className="space-y-3">
+                  {Object.entries(UF_FILTER).map(([regionKey, region]) => (
+                    <div key={regionKey}>
+                      <button
+                        onClick={() =>
+                          setExpandedUfRegion(
+                            expandedUfRegion === regionKey ? null : regionKey
+                          )
+                        }
+                        className="w-full text-left px-3 py-2 hover:bg-background rounded-lg transition-colors flex items-center justify-between"
+                      >
+                        <span className="text-sm font-medium text-foreground">
+                          {region.label} (0/{region.states.length})
+                        </span>
+                        <ChevronDown
+                          className={cn(
+                            "w-4 h-4 transition-transform",
+                            expandedUfRegion === regionKey && "rotate-180"
+                          )}
+                        />
+                      </button>
+                      {expandedUfRegion === regionKey && (
+                        <div className="ml-4 mt-2 space-y-2">
+                          {region.states.map((state) => (
+                            <label
+                              key={state.id}
+                              className="flex items-center gap-2"
+                            >
+                              <input
+                                type="checkbox"
+                                checked={selectedFilters.uf.includes(state.id)}
+                                onChange={() =>
+                                  toggleFilter("uf", state.id)
+                                }
+                                className="w-4 h-4 rounded border-border"
+                              />
+                              <span className="text-sm text-foreground/70">
+                                {state.label}
+                              </span>
+                            </label>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>
 
               {/* Clear Filters */}
               {Object.values(selectedFilters).some((arr) => arr.length > 0) ||
+              orgaoSearch.trim() ||
               savedOnly ? (
                 <button
                   onClick={() => {
                     setSelectedFilters({
                       status: [],
                       modalidade: [],
-                      orgao: [],
-                      valor: [],
+                      uf: [],
                     });
+                    setOrgaoSearch("");
                     setSavedOnly(false);
                   }}
                   className="w-full px-4 py-2 border-2 border-border text-foreground rounded-lg font-medium hover:bg-background transition-colors"
@@ -350,7 +360,7 @@ export default function Licitacoes() {
                             {licitacao.orgao}
                           </div>
                           <div className="flex items-center gap-2 text-foreground/70">
-                            <FileText className="w-4 h-4" />
+                            <Filter className="w-4 h-4" />
                             {licitacao.modalidade}
                           </div>
                           <div className="flex items-center gap-2 text-foreground/70">
@@ -421,11 +431,11 @@ export default function Licitacoes() {
                     setSelectedFilters({
                       status: [],
                       modalidade: [],
-                      orgao: [],
-                      valor: [],
+                      uf: [],
                     });
                     setSavedOnly(false);
                     setSearchTerm("");
+                    setOrgaoSearch("");
                   }}
                   className="text-primary hover:text-primary/80 font-medium"
                 >
@@ -439,5 +449,3 @@ export default function Licitacoes() {
     </div>
   );
 }
-
-import { FileText } from "lucide-react";
