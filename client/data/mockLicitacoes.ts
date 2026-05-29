@@ -1,4 +1,4 @@
-import { Licitacao, Alerta, Proposta } from "@/types/licitacao";
+import { Licitacao, Alerta, Proposta, Boletim } from "@/types/licitacao";
 
 export const mockLicitacoes: Licitacao[] = [
   {
@@ -242,5 +242,44 @@ export const mockPropostas: Proposta[] = [
     dataEnvio: "27/01/2024",
     status: "aprovada",
     valor: 84000,
+  },
+];
+
+export const mockBoletins: Boletim[] = [
+  {
+    id: "1",
+    numero: "BL-2024-001",
+    titulo: "Boletim de Licitações",
+    data: "2024-01-15",
+    descricao: "5 novas licitações publicadas",
+    conteudo: "Detalhes completos do boletim BL-2024-001 com todas as licitações publicadas.",
+    licitacoesIds: ["l001", "l002", "l003", "l004", "l005"]
+  },
+  {
+    id: "2",
+    numero: "BL-2024-002",
+    titulo: "Atualização de Editais",
+    data: "2024-01-15",
+    descricao: "2 editais atualizados",
+    conteudo: "Detalhes completos do boletim BL-2024-002 com as atualizações de editais.",
+    licitacoesIds: ["l006", "l007"]
+  },
+  {
+    id: "3",
+    numero: "BL-2024-003",
+    titulo: "Boletim Semanal",
+    data: "2024-01-18",
+    descricao: "Resumo da semana - 12 licitações",
+    conteudo: "Detalhes completos do boletim BL-2024-003 com o resumo semanal.",
+    licitacoesIds: ["l001", "l002", "l003", "l004", "l005", "l006", "l007", "l008"]
+  },
+  {
+    id: "4",
+    numero: "BL-2024-004",
+    titulo: "Avisos Importantes",
+    data: "2024-01-20",
+    descricao: "3 prazos expiram em breve",
+    conteudo: "Detalhes completos do boletim BL-2024-004 com avisos importantes.",
+    licitacoesIds: ["l001", "l003", "l007"]
   },
 ];
