@@ -114,6 +114,11 @@ export default function Sidebar({ onLogout, userEmail }: SidebarProps) {
 
   const sidebarContent = (
     <nav className="h-full flex flex-col bg-white border-r border-border">
+      {/* Logo */}
+      <div className="p-4 flex items-center justify-center border-b border-border">
+        <img src="/logo.png" alt="Logo" className="h-10 w-10" />
+      </div>
+
       {/* Company Selector */}
       <div className="p-4 border-b border-border">
         <div className="flex items-center justify-between mb-2">
