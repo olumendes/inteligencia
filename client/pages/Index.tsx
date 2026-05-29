@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
@@ -7,6 +8,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import { Check, AlertCircle, Clock, Settings, Download, BarChart3 } from "lucide-react";
 
 export default function Index() {
+  const navigate = useNavigate();
   const [isTrialModalOpen, setIsTrialModalOpen] = useState(false);
 
   return (
@@ -34,7 +36,10 @@ export default function Index() {
                 >
                   Começar teste grátis por 14 dias
                 </button>
-                <button className="border-2 border-primary text-primary px-8 py-3 rounded-lg font-semibold hover:bg-primary/5 transition-colors">
+                <button
+                  onClick={() => navigate("/login")}
+                  className="border-2 border-primary text-primary px-8 py-3 rounded-lg font-semibold hover:bg-primary/5 transition-colors"
+                >
                   Fazer Login
                 </button>
               </div>

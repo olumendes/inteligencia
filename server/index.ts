@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import { handleDemo } from "./routes/demo";
 import { handleContact } from "./routes/contact";
 import { handleTrialSignup } from "./routes/trial-signup";
+import { handleLogin, handleGetUserInfo } from "./routes/auth";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -26,6 +27,10 @@ export function createServer() {
   app.get("/api/demo", handleDemo);
   app.post("/api/contact", handleContact);
   app.post("/api/trial-signup", handleTrialSignup);
+
+  // Auth routes
+  app.post("/api/login", handleLogin);
+  app.get("/api/user-info", handleGetUserInfo);
 
   return app;
 }
