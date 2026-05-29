@@ -204,13 +204,13 @@ export default function Licitacoes() {
         <div className="flex h-[calc(100vh-120px)] relative">
           {/* Filters Sidebar */}
           <aside
-            className="w-64 bg-white border-r border-border overflow-y-auto z-30 transition-transform"
+            className="w-64 bg-white border-r border-border overflow-y-auto z-30"
             style={{
-              position: isMobile ? "fixed" : "static",
+              position: isMobile ? "fixed" : "relative",
               top: isMobile ? "120px" : "auto",
               left: 0,
-              height: isMobile ? "100vh" : "100%",
-              transform: !isMobile ? "translateX(0)" : filtersOpen ? "translateX(0)" : "translateX(-100%)"
+              height: isMobile ? "100vh" : "auto",
+              display: isMobile && !filtersOpen ? "none" : "block"
             }}
           >
             <div className="p-6">
