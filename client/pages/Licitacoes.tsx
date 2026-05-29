@@ -26,6 +26,10 @@ export default function Licitacoes() {
     status: [],
     modalidade: [],
     uf: [],
+    municipio: [],
+    esfera: [],
+    poder: [],
+    tipo: [],
   });
   const [orgaoSearch, setOrgaoSearch] = useState("");
   const [savedOnly, setSavedOnly] = useState(false);
@@ -69,6 +73,26 @@ export default function Licitacoes() {
     if (selectedFilters.uf.length > 0) {
       result = result.filter((l) =>
         selectedFilters.uf.includes(l.uf || "")
+      );
+    }
+    if (selectedFilters.municipio.length > 0) {
+      result = result.filter((l) =>
+        selectedFilters.municipio.includes(l.municipio || "")
+      );
+    }
+    if (selectedFilters.esfera.length > 0) {
+      result = result.filter((l) =>
+        selectedFilters.esfera.includes(l.esfera || "")
+      );
+    }
+    if (selectedFilters.poder.length > 0) {
+      result = result.filter((l) =>
+        selectedFilters.poder.includes(l.poder || "")
+      );
+    }
+    if (selectedFilters.tipo.length > 0) {
+      result = result.filter((l) =>
+        selectedFilters.tipo.includes(l.tipo || "")
       );
     }
     if (orgaoSearch.trim()) {
@@ -240,6 +264,106 @@ export default function Licitacoes() {
                 />
               </div>
 
+              {/* Esfera Filter */}
+              <div className="mb-6">
+                <h4 className="text-sm font-semibold text-foreground mb-2">
+                  Esfera
+                </h4>
+                <div className="space-y-2">
+                  {FILTROS_DISPONIVEIS.esfera?.map((filter) => (
+                    <label key={filter.id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={selectedFilters.esfera.includes(filter.id)}
+                        onChange={() => toggleFilter("esfera", filter.id)}
+                        className="w-4 h-4 rounded border-border"
+                      />
+                      <span className="text-sm text-foreground/70">
+                        {filter.label}
+                      </span>
+                      <span className="text-xs text-foreground/50 ml-auto">
+                        ({filter.count})
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Poder Filter */}
+              <div className="mb-6">
+                <h4 className="text-sm font-semibold text-foreground mb-2">
+                  Poder
+                </h4>
+                <div className="space-y-2">
+                  {FILTROS_DISPONIVEIS.poder?.map((filter) => (
+                    <label key={filter.id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={selectedFilters.poder.includes(filter.id)}
+                        onChange={() => toggleFilter("poder", filter.id)}
+                        className="w-4 h-4 rounded border-border"
+                      />
+                      <span className="text-sm text-foreground/70">
+                        {filter.label}
+                      </span>
+                      <span className="text-xs text-foreground/50 ml-auto">
+                        ({filter.count})
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tipo Filter */}
+              <div className="mb-6">
+                <h4 className="text-sm font-semibold text-foreground mb-2">
+                  Tipo
+                </h4>
+                <div className="space-y-2">
+                  {FILTROS_DISPONIVEIS.tipo?.map((filter) => (
+                    <label key={filter.id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={selectedFilters.tipo.includes(filter.id)}
+                        onChange={() => toggleFilter("tipo", filter.id)}
+                        className="w-4 h-4 rounded border-border"
+                      />
+                      <span className="text-sm text-foreground/70">
+                        {filter.label}
+                      </span>
+                      <span className="text-xs text-foreground/50 ml-auto">
+                        ({filter.count})
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Municípios Filter */}
+              <div className="mb-6">
+                <h4 className="text-sm font-semibold text-foreground mb-2">
+                  Municípios
+                </h4>
+                <div className="space-y-2 max-h-72 overflow-y-auto">
+                  {FILTROS_DISPONIVEIS.municipio?.map((filter) => (
+                    <label key={filter.id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={selectedFilters.municipio.includes(filter.id)}
+                        onChange={() => toggleFilter("municipio", filter.id)}
+                        className="w-4 h-4 rounded border-border"
+                      />
+                      <span className="text-sm text-foreground/70">
+                        {filter.label}
+                      </span>
+                      <span className="text-xs text-foreground/50 ml-auto">
+                        ({filter.count})
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
               {/* UF Filter */}
               <div className="mb-6">
                 <h4 className="text-sm font-semibold text-foreground mb-3">
@@ -303,6 +427,10 @@ export default function Licitacoes() {
                       status: [],
                       modalidade: [],
                       uf: [],
+                      municipio: [],
+                      esfera: [],
+                      poder: [],
+                      tipo: [],
                     });
                     setOrgaoSearch("");
                     setSavedOnly(false);
@@ -432,6 +560,10 @@ export default function Licitacoes() {
                       status: [],
                       modalidade: [],
                       uf: [],
+                      municipio: [],
+                      esfera: [],
+                      poder: [],
+                      tipo: [],
                     });
                     setSavedOnly(false);
                     setSearchTerm("");
