@@ -61,7 +61,7 @@ export default function Alertas() {
       <main className="flex-1">
         {/* Header */}
         <header className="bg-white border-b border-border">
-          <div className="px-6 py-8">
+          <div className="px-6 py-8 max-w-4xl mx-auto">
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-3xl font-bold text-foreground mb-2">
@@ -131,7 +131,7 @@ export default function Alertas() {
         </header>
 
         {/* Content */}
-        <div className="p-6 max-w-4xl">
+        <div className="p-6 max-w-4xl mx-auto">
           {/* Stats */}
           <div className="grid grid-cols-3 gap-4 mb-8">
             <div className="bg-white border border-border rounded-lg p-6 text-center">

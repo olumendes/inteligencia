@@ -50,3 +50,13 @@ export interface Filtros {
   poder?: Filtro[];
   tipo?: Filtro[];
 }
+
+export interface Boletim {
+  id: string;
+  numero: string;
+  titulo: string;
+  data: string;
+  descricao: string;
+  conteudo: string;
+  licitacoesIds: string[];
+}
