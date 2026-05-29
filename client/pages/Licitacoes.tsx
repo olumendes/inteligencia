@@ -181,15 +181,13 @@ export default function Licitacoes() {
                   className="w-full pl-10 pr-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
-              {isMobile && (
-                <button
-                  onClick={() => setFiltersOpen(!filtersOpen)}
-                  className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center gap-2 relative z-10"
-                >
-                  <Filter className="w-5 h-5" />
-                  Filtrar
-                </button>
-              )}
+              <button
+                onClick={() => setFiltersOpen(!filtersOpen)}
+                className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center gap-2 relative z-10"
+              >
+                <Filter className="w-5 h-5" />
+                Filtrar
+              </button>
             </div>
           </div>
         </header>
@@ -212,15 +210,13 @@ export default function Licitacoes() {
             )}
           >
             <div className="p-6">
-              {/* Close Button (Mobile Only) */}
-              {!isMobile ? null : (
-                <button
-                  onClick={() => setFiltersOpen(false)}
-                  className="absolute top-4 right-4 p-2 hover:bg-background rounded-lg transition-colors z-40"
-                >
-                  <X className="w-5 h-5 text-foreground" />
-                </button>
-              )}
+              {/* Close Button */}
+              <button
+                onClick={() => setFiltersOpen(false)}
+                className="absolute top-4 right-4 p-2 hover:bg-background rounded-lg transition-colors z-40"
+              >
+                <X className="w-5 h-5 text-foreground" />
+              </button>
 
               <div className="mt-8 lg:mt-0">
                 {/* Quick Filters */}
