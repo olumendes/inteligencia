@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { LogOut, Mail, User, Calendar, Star, CheckCircle, Settings } from "lucide-react";
+import { LogOut, Mail, Calendar, Star, CheckCircle, Settings, X, Plus, Bell, Heart, Send } from "lucide-react";
 
 interface UserInfo {
   id: string;
@@ -14,7 +14,7 @@ interface UserInfo {
 const USER_DATA: UserInfo = {
   id: "user-001",
   email: "oluanmendes@gmail.com",
-  name: "Luan Mendes",
+  name: "Oluam Mendes",
   createdAt: "15/01/2024",
   plan: "premium",
   status: "active",
@@ -26,6 +26,9 @@ export default function Dashboard() {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [keywords, setKeywords] = useState<string[]>([]);
+  const [newKeyword, setNewKeyword] = useState("");
 
   useEffect(() => {
     if (email === USER_DATA.email) {
@@ -40,6 +43,17 @@ export default function Dashboard() {
   const handleLogout = () => {
     localStorage.removeItem("user");
     navigate("/");
+  };
+
+  const handleAddKeyword = () => {
+    if (newKeyword.trim()) {
+      setKeywords([...keywords, newKeyword]);
+      setNewKeyword("");
+    }
+  };
+
+  const handleRemoveKeyword = (index: number) => {
+    setKeywords(keywords.filter((_, i) => i !== index));
   };
 
   if (loading) {
@@ -198,16 +212,30 @@ export default function Dashboard() {
               Ações Rápidas
             </h3>
             <div className="space-y-3">
-              <button className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors">
+              <button
+                onClick={() => setActiveModal("keywords")}
+                className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
+              >
+                <Plus className="w-4 h-4" />
                 Nova Palavra-chave
               </button>
-              <button className="w-full px-4 py-2 border-2 border-primary text-primary rounded-lg font-semibold hover:bg-primary/5 transition-colors">
+              <button
+                onClick={() => setActiveModal("settings")}
+                className="w-full px-4 py-2 border-2 border-primary text-primary rounded-lg font-semibold hover:bg-primary/5 transition-colors"
+              >
                 Configurações
               </button>
-              <button className="w-full px-4 py-2 border-2 border-border text-foreground rounded-lg font-semibold hover:bg-background transition-colors">
+              <button
+                onClick={() => setActiveModal("filters")}
+                className="w-full px-4 py-2 border-2 border-border text-foreground rounded-lg font-semibold hover:bg-background transition-colors"
+              >
                 Filtros
               </button>
-              <button className="w-full px-4 py-2 border-2 border-border text-foreground rounded-lg font-semibold hover:bg-background transition-colors">
+              <button
+                onClick={() => setActiveModal("alerts")}
+                className="w-full px-4 py-2 border-2 border-border text-foreground rounded-lg font-semibold hover:bg-background transition-colors flex items-center justify-center gap-2"
+              >
+                <Bell className="w-4 h-4" />
                 Alertas
               </button>
             </div>
