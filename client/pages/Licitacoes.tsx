@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Search,
@@ -37,9 +37,10 @@ export default function Licitacoes() {
   const [sortBy, setSortBy] = useState<"data" | "valor">("data");
   const [expandedUfRegion, setExpandedUfRegion] = useState<string | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [isMobile, setIsMobile] = useState(typeof window !== "undefined" ? window.innerWidth < 1024 : false);
 
-  useEffect(() => {
+  useMemo(() => {
+    if (typeof window === "undefined") return;
     const handleResize = () => {
       setIsMobile(window.innerWidth < 1024);
     };
@@ -206,7 +207,7 @@ export default function Licitacoes() {
           <aside
             className={cn(
               "fixed lg:static top-[120px] left-0 h-screen lg:h-full w-64 bg-white border-r border-border overflow-y-auto z-30 transition-transform",
-              filtersOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+              !isMobile ? "translate-x-0" : filtersOpen ? "translate-x-0" : "-translate-x-full"
             )}
           >
             <div className="p-6">
