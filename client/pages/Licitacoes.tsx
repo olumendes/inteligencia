@@ -9,6 +9,7 @@ import {
   Calendar,
   Building2,
   ChevronDown,
+  X,
 } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import { Licitacao } from "@/types/licitacao";
@@ -35,6 +36,7 @@ export default function Licitacoes() {
   const [savedOnly, setSavedOnly] = useState(false);
   const [sortBy, setSortBy] = useState<"data" | "valor">("data");
   const [expandedUfRegion, setExpandedUfRegion] = useState<string | null>(null);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -123,6 +125,9 @@ export default function Licitacoes() {
         ? prev[category].filter((id) => id !== filterId)
         : [...prev[category], filterId],
     }));
+    if (window.innerWidth < 1024) {
+      setFiltersOpen(false);
+    }
   };
 
   const toggleSaved = (id: string) => {
@@ -167,7 +172,10 @@ export default function Licitacoes() {
                   className="w-full pl-10 pr-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
-              <button className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center gap-2">
+              <button
+                onClick={() => setFiltersOpen(!filtersOpen)}
+                className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center gap-2 lg:hidden"
+              >
                 <Filter className="w-5 h-5" />
                 Filtrar
               </button>
@@ -177,10 +185,24 @@ export default function Licitacoes() {
 
         <div className="flex h-[calc(100vh-120px)]">
           {/* Filters Sidebar */}
-          <aside className="hidden lg:block w-64 bg-white border-r border-border overflow-y-auto">
-            <div className="p-6">
-              {/* Quick Filters */}
-              <div className="mb-8">
+          <aside
+            className={cn(
+              "fixed lg:static top-0 left-0 h-screen lg:h-full w-64 bg-white border-r border-border overflow-y-auto z-30 transition-transform",
+              filtersOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+            )}
+          >
+            <div className="p-6 relative">
+              {/* Close Button (Mobile Only) */}
+              <button
+                onClick={() => setFiltersOpen(false)}
+                className="lg:hidden absolute top-4 right-4 p-2 hover:bg-background rounded-lg transition-colors"
+              >
+                <X className="w-5 h-5 text-foreground" />
+              </button>
+
+              <div className="mt-8 lg:mt-0">
+                {/* Quick Filters */}
+                <div className="mb-8">
                 <h3 className="font-semibold text-foreground mb-3">
                   Filtros Rápidos
                 </h3>
@@ -196,10 +218,10 @@ export default function Licitacoes() {
                   <Heart className="w-4 h-4" />
                   Apenas Salvas
                 </button>
-              </div>
+                </div>
 
-              {/* Status Filter */}
-              <div className="mb-6">
+                {/* Status Filter */}
+                <div className="mb-6">
                 <h4 className="text-sm font-semibold text-foreground mb-2">
                   Status
                 </h4>
@@ -221,10 +243,10 @@ export default function Licitacoes() {
                     </label>
                   ))}
                 </div>
-              </div>
+                </div>
 
-              {/* Modalidade Filter */}
-              <div className="mb-6">
+                {/* Modalidade Filter */}
+                <div className="mb-6">
                 <h4 className="text-sm font-semibold text-foreground mb-2">
                   Modalidade
                 </h4>
@@ -248,10 +270,10 @@ export default function Licitacoes() {
                     </label>
                   ))}
                 </div>
-              </div>
+                </div>
 
-              {/* Razão Social do Órgão Filter */}
-              <div className="mb-6">
+                {/* Razão Social do Órgão Filter */}
+                <div className="mb-6">
                 <h4 className="text-sm font-semibold text-foreground mb-2">
                   Razão Social do Órgão
                 </h4>
@@ -262,10 +284,10 @@ export default function Licitacoes() {
                   onChange={(e) => setOrgaoSearch(e.target.value)}
                   className="w-full px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 />
-              </div>
+                </div>
 
-              {/* Esfera Filter */}
-              <div className="mb-6">
+                {/* Esfera Filter */}
+                <div className="mb-6">
                 <h4 className="text-sm font-semibold text-foreground mb-2">
                   Esfera
                 </h4>
@@ -287,10 +309,10 @@ export default function Licitacoes() {
                     </label>
                   ))}
                 </div>
-              </div>
+                </div>
 
-              {/* Poder Filter */}
-              <div className="mb-6">
+                {/* Poder Filter */}
+                <div className="mb-6">
                 <h4 className="text-sm font-semibold text-foreground mb-2">
                   Poder
                 </h4>
@@ -312,10 +334,10 @@ export default function Licitacoes() {
                     </label>
                   ))}
                 </div>
-              </div>
+                </div>
 
-              {/* Tipo Filter */}
-              <div className="mb-6">
+                {/* Tipo Filter */}
+                <div className="mb-6">
                 <h4 className="text-sm font-semibold text-foreground mb-2">
                   Tipo
                 </h4>
@@ -337,10 +359,10 @@ export default function Licitacoes() {
                     </label>
                   ))}
                 </div>
-              </div>
+                </div>
 
-              {/* Municípios Filter */}
-              <div className="mb-6">
+                {/* Municípios Filter */}
+                <div className="mb-6">
                 <h4 className="text-sm font-semibold text-foreground mb-2">
                   Municípios
                 </h4>
@@ -362,10 +384,10 @@ export default function Licitacoes() {
                     </label>
                   ))}
                 </div>
-              </div>
+                </div>
 
-              {/* UF Filter */}
-              <div className="mb-6">
+                {/* UF Filter */}
+                <div className="mb-6">
                 <h4 className="text-sm font-semibold text-foreground mb-3">
                   UF
                 </h4>
@@ -415,13 +437,13 @@ export default function Licitacoes() {
                     </div>
                   ))}
                 </div>
-              </div>
+                </div>
 
-              {/* Clear Filters */}
-              {Object.values(selectedFilters).some((arr) => arr.length > 0) ||
-              orgaoSearch.trim() ||
-              savedOnly ? (
-                <button
+                {/* Clear Filters */}
+                {Object.values(selectedFilters).some((arr) => arr.length > 0) ||
+                orgaoSearch.trim() ||
+                savedOnly ? (
+                  <button
                   onClick={() => {
                     setSelectedFilters({
                       status: [],
@@ -436,10 +458,11 @@ export default function Licitacoes() {
                     setSavedOnly(false);
                   }}
                   className="w-full px-4 py-2 border-2 border-border text-foreground rounded-lg font-medium hover:bg-background transition-colors"
-                >
-                  Limpar Filtros
-                </button>
-              ) : null}
+                  >
+                    Limpar Filtros
+                  </button>
+                ) : null}
+              </div>
             </div>
           </aside>
 
