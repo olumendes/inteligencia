@@ -114,6 +114,16 @@ export default function Sidebar({ onLogout, userEmail }: SidebarProps) {
 
   const sidebarContent = (
     <nav className="h-full flex flex-col bg-white border-r border-border">
+      {/* Logo */}
+      <div className="p-4 flex items-center justify-center border-b border-border">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets%2F7f3ad65aabb7489fb87ea0e0143e6440%2Fb675771a3d0a4f10b611cb0e5f666225?format=webp&width=800&height=1200"
+          alt="Logo Inteligência Licitatória"
+          className="h-auto object-contain"
+          style={{ maxWidth: "160px" }}
+        />
+      </div>
+
       {/* Company Selector */}
       <div className="p-4 border-b border-border">
         <div className="flex items-center justify-between mb-2">

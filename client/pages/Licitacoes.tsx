@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Search,
@@ -37,6 +37,15 @@ export default function Licitacoes() {
   const [sortBy, setSortBy] = useState<"data" | "valor">("data");
   const [expandedUfRegion, setExpandedUfRegion] = useState<string | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(typeof window !== "undefined" ? window.innerWidth < 1024 : false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -154,7 +163,7 @@ export default function Licitacoes() {
 
       <main className="flex-1 md:ml-0">
         {/* Header */}
-        <header className="bg-white border-b border-border sticky top-0 z-10">
+        <header className="bg-white border-b border-border sticky top-0 z-40">
           <div className="px-6 py-4">
             <h1 className="text-3xl font-bold text-foreground mb-4">
               Licitações
@@ -174,7 +183,7 @@ export default function Licitacoes() {
               </div>
               <button
                 onClick={() => setFiltersOpen(!filtersOpen)}
-                className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center gap-2 lg:hidden"
+                className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center gap-2 relative z-10"
               >
                 <Filter className="w-5 h-5" />
                 Filtrar
@@ -183,19 +192,32 @@ export default function Licitacoes() {
           </div>
         </header>
 
-        <div className="flex h-[calc(100vh-120px)]">
+        {/* Backdrop (Mobile Only) */}
+        {filtersOpen && (
+          <div
+            className="fixed inset-0 bg-black/50 z-20 lg:hidden"
+            onClick={() => setFiltersOpen(false)}
+            style={{ top: "120px" }}
+          />
+        )}
+
+        <div className="flex h-[calc(100vh-120px)] relative">
           {/* Filters Sidebar */}
-          <aside
-            className={cn(
-              "fixed lg:static top-0 left-0 h-screen lg:h-full w-64 bg-white border-r border-border overflow-y-auto z-30 transition-transform",
-              filtersOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-            )}
-          >
-            <div className="p-6 relative">
-              {/* Close Button (Mobile Only) */}
+          {filtersOpen && (
+            <aside
+              className="w-64 bg-white border-r border-border overflow-y-auto z-30"
+              style={{
+                position: isMobile ? "fixed" : "relative",
+                top: isMobile ? "120px" : "auto",
+                left: 0,
+                height: isMobile ? "100vh" : "auto"
+              }}
+            >
+            <div className="p-6">
+              {/* Close Button */}
               <button
                 onClick={() => setFiltersOpen(false)}
-                className="lg:hidden absolute top-4 right-4 p-2 hover:bg-background rounded-lg transition-colors"
+                className="absolute top-4 right-4 p-2 hover:bg-background rounded-lg transition-colors z-40"
               >
                 <X className="w-5 h-5 text-foreground" />
               </button>
@@ -464,7 +486,8 @@ export default function Licitacoes() {
                 ) : null}
               </div>
             </div>
-          </aside>
+            </aside>
+          )}
 
           {/* Main Content */}
           <div className="flex-1 p-6 overflow-y-auto">
