@@ -203,16 +203,16 @@ export default function Licitacoes() {
 
         <div className="flex h-[calc(100vh-120px)] relative">
           {/* Filters Sidebar */}
-          <aside
-            className="w-64 bg-white border-r border-border overflow-y-auto z-30"
-            style={{
-              position: isMobile ? "fixed" : "relative",
-              top: isMobile ? "120px" : "auto",
-              left: 0,
-              height: isMobile ? "100vh" : "auto",
-              display: isMobile && !filtersOpen ? "none" : "block"
-            }}
-          >
+          {filtersOpen && (
+            <aside
+              className="w-64 bg-white border-r border-border overflow-y-auto z-30"
+              style={{
+                position: isMobile ? "fixed" : "relative",
+                top: isMobile ? "120px" : "auto",
+                left: 0,
+                height: isMobile ? "100vh" : "auto"
+              }}
+            >
             <div className="p-6">
               {/* Close Button */}
               <button
@@ -486,7 +486,8 @@ export default function Licitacoes() {
                 ) : null}
               </div>
             </div>
-          </aside>
+            </aside>
+          )}
 
           {/* Main Content */}
           <div className="flex-1 p-6 overflow-y-auto">
