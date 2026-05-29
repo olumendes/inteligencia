@@ -19,11 +19,10 @@ export const handleLogin: RequestHandler = (req, res) => {
   const { email, password } = req.body as LoginRequest;
 
   if (!email || !password) {
-    res.status(400).json({
+    return res.status(400).json({
       success: false,
       message: "Email and password are required",
     } as LoginResponse);
-    return;
   }
 
   if (email === TEST_USER.email && password === TEST_USER.password) {
@@ -34,7 +33,7 @@ export const handleLogin: RequestHandler = (req, res) => {
       expiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
     });
 
-    res.json({
+    return res.status(200).json({
       success: true,
       message: "Login successful",
       user: {
@@ -43,20 +42,19 @@ export const handleLogin: RequestHandler = (req, res) => {
         name: TEST_USER.name,
       },
     } as LoginResponse);
-  } else {
-    res.status(401).json({
-      success: false,
-      message: "Invalid email or password",
-    } as LoginResponse);
   }
+
+  return res.status(401).json({
+    success: false,
+    message: "Invalid email or password",
+  } as LoginResponse);
 };
 
 export const handleGetUserInfo: RequestHandler = (req, res) => {
   const email = req.query.email as string;
 
   if (!email) {
-    res.status(400).json({ error: "Email is required" });
-    return;
+    return res.status(400).json({ error: "Email is required" });
   }
 
   if (email === TEST_USER.email) {
@@ -68,8 +66,8 @@ export const handleGetUserInfo: RequestHandler = (req, res) => {
       plan: TEST_USER.plan,
       status: TEST_USER.status,
     };
-    res.json(userInfo);
-  } else {
-    res.status(404).json({ error: "User not found" });
+    return res.status(200).json(userInfo);
   }
+
+  return res.status(404).json({ error: "User not found" });
 };

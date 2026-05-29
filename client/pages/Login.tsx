@@ -23,7 +23,18 @@ export default function Login() {
         body: JSON.stringify(loginData),
       });
 
-      const data: LoginResponse = await response.json();
+      if (!response.ok) {
+        setError("Erro ao conectar com o servidor");
+        return;
+      }
+
+      const text = await response.text();
+      if (!text) {
+        setError("Resposta vazia do servidor");
+        return;
+      }
+
+      const data: LoginResponse = JSON.parse(text);
 
       if (data.success && data.user) {
         // Store user info in localStorage
@@ -33,7 +44,8 @@ export default function Login() {
         setError(data.message || "Login falhou");
       }
     } catch (err) {
-      setError("Erro ao conectar com o servidor");
+      const errorMsg = err instanceof Error ? err.message : "Erro desconhecido";
+      setError(`Erro ao conectar: ${errorMsg}`);
       console.error(err);
     } finally {
       setLoading(false);
