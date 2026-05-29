@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Search,
@@ -37,6 +37,15 @@ export default function Licitacoes() {
   const [sortBy, setSortBy] = useState<"data" | "valor">("data");
   const [expandedUfRegion, setExpandedUfRegion] = useState<string | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -172,13 +181,15 @@ export default function Licitacoes() {
                   className="w-full pl-10 pr-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
-              <button
-                onClick={() => setFiltersOpen(!filtersOpen)}
-                className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center gap-2 lg:hidden relative z-10"
-              >
-                <Filter className="w-5 h-5" />
-                Filtrar
-              </button>
+              {isMobile && (
+                <button
+                  onClick={() => setFiltersOpen(!filtersOpen)}
+                  className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center gap-2 relative z-10"
+                >
+                  <Filter className="w-5 h-5" />
+                  Filtrar
+                </button>
+              )}
             </div>
           </div>
         </header>
@@ -202,12 +213,14 @@ export default function Licitacoes() {
           >
             <div className="p-6">
               {/* Close Button (Mobile Only) */}
-              <button
-                onClick={() => setFiltersOpen(false)}
-                className="lg:hidden absolute top-4 right-4 p-2 hover:bg-background rounded-lg transition-colors z-40"
-              >
-                <X className="w-5 h-5 text-foreground" />
-              </button>
+              {!isMobile ? null : (
+                <button
+                  onClick={() => setFiltersOpen(false)}
+                  className="absolute top-4 right-4 p-2 hover:bg-background rounded-lg transition-colors z-40"
+                >
+                  <X className="w-5 h-5 text-foreground" />
+                </button>
+              )}
 
               <div className="mt-8 lg:mt-0">
                 {/* Quick Filters */}
